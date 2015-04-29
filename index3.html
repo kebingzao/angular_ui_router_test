@@ -1,0 +1,55 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>传统的 angular-route 的使用</title>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-route/angular-route.min.js"></script>
+    <script>
+        var myApp = angular.module('myApp', ['ngRoute']);
+
+        // configure our routes
+        myApp.config(function($routeProvider) {
+            $routeProvider
+
+                // route for the home page
+                    .when('/', {
+                        templateUrl : 'router_tpl/home.html',
+                        controller  : 'mainController'
+                    })
+
+                // route for the about page
+                    .when('/about', {
+                        templateUrl : 'router_tpl/about.html',
+                        controller  : 'aboutController'
+                    })
+
+                // route for the contact page
+                    .when('/contact', {
+                        templateUrl : 'router_tpl/contact.html',
+                        controller  : 'contactController'
+                    });
+        });
+
+        // create the controller and inject Angular's $scope
+        myApp.controller('mainController', function($scope) {
+            // create a message to display in our view
+            $scope.message = 'This is the home.';
+        });
+
+        myApp.controller('aboutController', function($scope) {
+            $scope.message = 'Here you can know everything ABOUT us.';
+        });
+
+        myApp.controller('contactController', function($scope) {
+            $scope.message = 'Contact us! For more information see below.';
+        });
+    </script>
+</head>
+<body>
+<div ng-view></div>
+<a href="#/about">about</a>
+<a href="#/contact">contact</a>
+<a href="#/">home</a>
+</body>
+</html>

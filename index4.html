@@ -1,0 +1,92 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>angular-ui-router 使用的另一个例子</title>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script>
+        var myApp = angular.module('myApp', ['ui.router']);
+        myApp.config(function($stateProvider, $urlRouterProvider) {
+
+            $urlRouterProvider.otherwise('/home');
+
+            $stateProvider
+
+                    .state('home', {
+                        url: 'home',
+                        templateUrl: 'uirouter_tpl/home.html'
+                    })
+
+                // nested list with custom controller
+                    .state('home.list', {
+                        url: '/list',
+                        templateUrl: 'uirouter_tpl/home-list.html',
+                        controller: function($scope) {
+                            $scope.topics = ['Butterscotch', 'Black Current', 'Mango'];
+                        }
+                    })
+
+                // nested list with just some random string data
+                    .state('home.paragraph', {
+                        url: '/paragraph',
+                        template: 'I could sure use a scoop of ice-cream. '
+                    })
+
+                    .state('about', {
+                        url: '/about',
+                        views: {
+                            '': { templateUrl: 'uirouter_tpl/about.html' },
+                            'columnOne@about': { template: 'hehe' },
+                            'columnTwo@about': {
+                                templateUrl: 'uirouter_tpl/table-data.html',
+                                controller: 'Controller'
+                            }
+                        }
+
+                    });
+
+        });
+
+        myApp.controller('Controller', function($scope) {
+
+            $scope.message = 'test';
+
+            $scope.topics = [
+                {
+                    name: 'Butterscotch',
+                    price: 50
+                },
+                {
+                    name: 'Black Current',
+                    price: 100
+                },
+                {
+                    name: 'Mango',
+                    price: 20
+                }
+            ];
+
+        });
+    </script>
+</head>
+<body>
+<!-- NAVIGATION -->
+<nav class="navbar navbar-inverse" role="navigation">
+    <div class="navbar-header">
+        <a class="navbar-brand" ui-sref="#">AngularUI Router</a>
+    </div>
+    <ul class="nav navbar-nav">
+        <li>
+            <a ui-sref="home">Home</a>
+        </li>
+        <li>
+            <a ui-sref="about">About</a>
+        </li>
+    </ul>
+</nav>
+<div class="container">
+    <div ui-view=""></div>
+</div>
+</body>
+</html>
